@@ -2,7 +2,6 @@ import fs from "fs/promises";
 
 // Use the imported Guest model in your controller logic
 
-
 const guestsFilePath = "./data/guests.json";
 
 export const getAllGuests = async (req, res) => {
