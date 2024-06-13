@@ -1,0 +1,34 @@
+{
+  "name": "projetnode",
+  "version": "1.0.0",
+  "description": "Mon super projet node fait en 1 jour",
+  "main": "app.js",
+  "type":"module",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "fs": "^0.0.1-security",
+    "helmet": "^7.1.0",
+    "http": "^0.0.1-security",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AugustinPredhomme/ProjetNode.git"
+  },
+  "keywords": ["nodejs", "node", "projet"],
+  "author": "Augustin Prédhomme <augustin.predhomme@3wa.io",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AugustinPredhomme/ProjetNode/issues",
+    "email": "augustin.predhomme@3wa.io"
+  },
+  "homepage": "https://github.com/AugustinPredhomme/ProjetNode?tab=readme-ov-file#projetnode"
+}
