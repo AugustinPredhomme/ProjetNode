@@ -1,6 +1,6 @@
-import Guest from './guest.js';
-import Room from './room.js';
-import Reservation from './reservation.js';
+import Guest from './guestsModel.js';
+import Room from './roomsModel.js';
+import Reservation from './reservationsModel.js';
 
 export default {
     Guest,

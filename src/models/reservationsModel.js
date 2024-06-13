@@ -1,4 +1,4 @@
-import Guest from './guest.js';
+import Guest from './guestsModel.js';
 
 export default class Reservation {
   constructor(guest, room, checkInDate, checkOutDate) {

@@ -1,5 +1,4 @@
 import fs from "fs/promises";
-import { Room } from "../models";
 
 const roomsFilePath = "./data/rooms.json";
 

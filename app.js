@@ -5,10 +5,14 @@ import path from 'path';
 import { dirname } from 'path';
 import fs from 'fs';
 
+//Import routes
+import guestsRoutes from './src/routes/guestsRoutes.js';
+import roomsRoutes from './src/routes/roomsRoutes.js';
+import reservationRoutes from './src/routes/reservationsRoutes.js';
+
 // Initialisation de l'application
 const app = express();
 
-// Configuration de Helmet
 app.use(helmet());
 
 // Définition du chemin du dossier static
@@ -21,13 +25,17 @@ app.get('/', (req, res) => {
   res.send('Bienvenue sur mon API RESTful!');
 });
 
+/*
 // Chargement des modules, routes, contrôleurs et modèles
 import routes from './src/routes/index.js';
 import * as controllers from './src/controllers/index.js';
 import * as models from './src/models/index.js';
+*/
 
 // Enregistrement des routes
-app.use(routes);
+app.use('/guests', guestsRoutes);
+app.use('/rooms', roomsRoutes);
+app.use('/reservation', reservationRoutes);
 
 // Gestion des erreurs
 app.use((err, req, res, next) => {

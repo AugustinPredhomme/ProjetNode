@@ -1,5 +1,5 @@
 import fs from "fs/promises";
-import { Reservation, Guest, Room } from "../models";
+import Reservation from "../models/reservationsModel.js";
 
 const guestsFilePath = "../data/guests.json";
 const roomsFilePath = "../data/rooms.json";
