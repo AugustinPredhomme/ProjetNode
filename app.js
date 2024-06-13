@@ -1,14 +1,18 @@
-import express from 'express';
-import http from 'http';
-import helmet from 'helmet';
-import path from 'path';
-import { dirname } from 'path';
-import fs from 'fs';
+import express from "express";
+import http from "http";
+import helmet from "helmet";
+import path from "path";
+import { dirname } from "path";
+import fs from "fs";
 
 //Import routes
-import guestsRoutes from './src/routes/guestsRoutes.js';
-import roomsRoutes from './src/routes/roomsRoutes.js';
-import reservationRoutes from './src/routes/reservationsRoutes.js';
+import guestsRoutes from "./src/routes/guestsRoutes.js";
+import roomsRoutes from "./src/routes/roomsRoutes.js";
+import reservationRoutes from "./src/routes/reservationsRoutes.js";
+
+//Import Middlewares
+import rateLimiterMiddleware from "./src/middlewares/rateLimiterMiddleware.js";
+import errorMiddleware from "./src/middlewares/errorMiddleware.js";
 
 // Initialisation de l'application
 const app = express();
@@ -17,31 +21,24 @@ app.use(helmet());
 
 // Définition du chemin du dossier static
 const __dirname = dirname(import.meta.url);
-const staticPath = path.join(__dirname, 'public');
+const staticPath = path.join(__dirname, "public");
 app.use(express.static(staticPath));
 
 // Routeur par défaut
-app.get('/', (req, res) => {
-  res.send('Bienvenue sur mon API RESTful!');
+app.get("/", (req, res) => {
+  res.send("Bienvenue sur mon API RESTful!");
 });
 
-/*
-// Chargement des modules, routes, contrôleurs et modèles
-import routes from './src/routes/index.js';
-import * as controllers from './src/controllers/index.js';
-import * as models from './src/models/index.js';
-*/
+// Rate Limiter
+app.use(rateLimiterMiddleware);
 
 // Enregistrement des routes
-app.use('/guests', guestsRoutes);
-app.use('/rooms', roomsRoutes);
-app.use('/reservation', reservationRoutes);
+app.use("/guests", guestsRoutes);
+app.use("/rooms", roomsRoutes);
+app.use("/reservation", reservationRoutes);
 
 // Gestion des erreurs
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(err.statusCode || 500).send(err.message);
-});
+app.use(errorMiddleware);
 
 // Création du serveur HTTP et lancement de l'application
 const server = http.createServer(app);
