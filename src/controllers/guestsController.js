@@ -1,12 +1,15 @@
-import fs from "fs/promises";
+import fs from "fs";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// Use the imported Guest model in your controller logic
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const guestsFilePath = "./data/guests.json";
+const guestsFilePath = path.join(__dirname, '../data/guests.json');
 
 export const getAllGuests = async (req, res) => {
   try {
-    const data = await fs.readFile(guestsFilePath, "utf-8");
+    const data = fs.readFileSync(guestsFilePath, "utf-8");
     const guests = JSON.parse(data);
     res.json(guests);
   } catch (error) {
@@ -18,7 +21,7 @@ export const getAllGuests = async (req, res) => {
 export const getGuestById = async (req, res) => {
   const guestId = req.params.id;
   try {
-    const data = await fs.readFile(guestsFilePath, "utf-8");
+    const data = fs.readFileSync(guestsFilePath, "utf-8");
     const guests = JSON.parse(data);
     const foundGuest = guests.find((guest) => guest.id === parseInt(guestId));
     if (foundGuest) {
@@ -48,7 +51,7 @@ export const createGuest = async (req, res) => {
         .json({ message: "Missing required guest information" });
     }
 
-    const data = await fs.readFile(guestsFilePath, "utf-8");
+    const data = fs.readFileSync(guestsFilePath, "utf-8");
     const guests = JSON.parse(data);
 
     //Generate a unique id
@@ -59,7 +62,7 @@ export const createGuest = async (req, res) => {
 
     guests.push({ ...newGuest, id: newId });
 
-    await fs.writeFile(guestsFilePath, JSON.stringify(guests, null, 2));
+    fs.writeFileSync(guestsFilePath, JSON.stringify(guests, null, 2));
 
     res
       .status(201)
@@ -75,7 +78,7 @@ export const updateGuest = async (req, res) => {
   const updatedGuestData = req.body;
 
   try {
-    const data = await fs.readFile(guestsFilePath, "utf-8");
+    const data = fs.readFileSync(guestsFilePath, "utf-8");
     const guests = JSON.parse(data);
     const guestIndex = guests.findIndex(
       (guest) => guest.id === parseInt(guestId)
@@ -87,7 +90,7 @@ export const updateGuest = async (req, res) => {
 
     guests[guestIndex] = { ...guests[guestIndex], ...updatedGuestData };
 
-    await fs.writeFile(guestsFilePath, JSON.stringify(guests, null, 2));
+    fs.writeFileSync(guestsFilePath, JSON.stringify(guests, null, 2));
 
     res.json({ message: "Guest updated successfully" });
   } catch (error) {
@@ -100,7 +103,7 @@ export const deleteGuest = async (req, res) => {
   const guestId = req.params.id;
 
   try {
-    const data = await fs.readFile(guestsFilePath, "utf-8");
+    const data = fs.readFileSync(guestsFilePath, "utf-8");
     const guests = JSON.parse(data);
     const guestIndex = guests.findIndex(
       (guest) => guest.id === parseInt(guestId)
@@ -112,7 +115,7 @@ export const deleteGuest = async (req, res) => {
 
     guests.splice(guestIndex, 1);
 
-    await fs.writeFile(guestsFilePath, JSON.stringify(guests, null, 2));
+    fs.writeFileSync(guestsFilePath, JSON.stringify(guests, null, 2));
 
     res.json({ message: "Guest deleted successfully" });
   } catch (error) {

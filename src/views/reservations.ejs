@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Debug - Reservations (<%= dataCount %>)</title>
+</head>
+<body>
+  <h1>Reservation Data (<%= dataCount %> records)</h1>
+  <% if (data.length > 0) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Guest Name</th>
+          <th>Room Number</th>
+          <th>Check-in Date</th>
+          <th>Check-out Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (const reservation of data) { %>
+          <tr>
+            <td><%= reservation.id %></td>
+            <td><%= reservation.guestName %></td>
+            <td><%= reservation.roomNumber %></td>
+            <td><%= reservation.checkInDate %></td>
+            <td><%= reservation.checkOutDate %></td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <p>No Reservation data found.</p>
+  <% } %>
+</body>
+</html>

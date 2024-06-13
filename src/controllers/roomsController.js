@@ -1,10 +1,15 @@
-import fs from "fs/promises";
+import fs from "fs";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const roomsFilePath = "./data/rooms.json";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const roomsFilePath = path.join(__dirname, "../data/rooms.json");
 
 export const getAllRooms = async (req, res) => {
   try {
-    const data = await fs.readFile(roomsFilePath, "utf-8");
+    const data = fs.readFileSync(roomsFilePath, "utf-8");
     const rooms = JSON.parse(data);
     res.json(rooms);
   } catch (error) {
@@ -16,7 +21,7 @@ export const getAllRooms = async (req, res) => {
 export const getRoomByNumber = async (req, res) => {
   const roomNumber = req.params.number;
   try {
-    const data = await fs.readFile(roomsFilePath, "utf-8");
+    const data = fs.readFileSync(roomsFilePath, "utf-8");
     const rooms = JSON.parse(data);
     const foundRoom = rooms.find(
       (room) => room.roomNumber === parseInt(roomNumber)
@@ -48,7 +53,7 @@ export const createRoom = async (req, res) => {
         .json({ message: "Missing required room information" });
     }
 
-    const data = await fs.readFile(roomsFilePath, "utf-8");
+    const data = fs.readFileSync(roomsFilePath, "utf-8");
     const rooms = JSON.parse(data);
 
     // Generate a unique room number
@@ -59,7 +64,7 @@ export const createRoom = async (req, res) => {
 
     rooms.push({ ...newRoom, roomNumber: newNumber });
 
-    await fs.writeFile(roomsFilePath, JSON.stringify(rooms, null, 2));
+    fs.writeFileSync(roomsFilePath, JSON.stringify(rooms, null, 2));
 
     res
       .status(201)
@@ -75,7 +80,7 @@ export const updateRoom = async (req, res) => {
   const updatedRoomData = req.body;
 
   try {
-    const data = await fs.readFile(roomsFilePath, "utf-8");
+    const data = fs.readFileSync(roomsFilePath, "utf-8");
     const rooms = JSON.parse(data);
     const roomIndex = rooms.findIndex(
       (room) => room.roomNumber === parseInt(roomNumber)
@@ -87,7 +92,7 @@ export const updateRoom = async (req, res) => {
 
     rooms[roomIndex] = { ...rooms[roomIndex], ...updatedRoomData };
 
-    await fs.writeFile(roomsFilePath, JSON.stringify(rooms, null, 2));
+    fs.writeFileSync(roomsFilePath, JSON.stringify(rooms, null, 2));
 
     res.json({ message: "Room updated successfully" });
   } catch (error) {
@@ -100,7 +105,7 @@ export const deleteRoom = async (req, res) => {
   const roomNumber = req.params.number;
 
   try {
-    const data = await fs.readFile(roomsFilePath, "utf-8");
+    const data = fs.readFileSync(roomsFilePath, "utf-8");
     const rooms = JSON.parse(data);
     const roomIndex = rooms.findIndex(
       (room) => room.roomNumber === parseInt(roomNumber)
@@ -112,7 +117,7 @@ export const deleteRoom = async (req, res) => {
 
     rooms.splice(roomIndex, 1);
 
-    await fs.writeFile(roomsFilePath, JSON.stringify(rooms, null, 2));
+    fs.writeFileSync(roomsFilePath, JSON.stringify(rooms, null, 2));
 
     res.json({ message: "Room deleted successfully" });
   } catch (error) {

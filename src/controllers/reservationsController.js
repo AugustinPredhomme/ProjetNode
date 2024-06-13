@@ -1,13 +1,18 @@
-import fs from "fs/promises";
+import fs from "fs";
+import path from 'path';
+import { fileURLToPath } from 'url';
 import Reservation from "../models/reservationsModel.js";
 
-const guestsFilePath = "../data/guests.json";
-const roomsFilePath = "../data/rooms.json";
-const reservationsFilePath = "../data/reservations.json";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const guestsFilePath = path.join(__dirname, '../data/guests.json');
+const roomsFilePath = path.join(__dirname, "../data/rooms.json");
+const reservationsFilePath = path.join(__dirname, "../data/reservations.json");
 
 export const getAllReservations = async (req, res) => {
   try {
-    const data = await fs.readFile(reservationsFilePath, "utf-8");
+    const data = fs.readFileSync(reservationsFilePath, "utf-8");
     const reservations = JSON.parse(data);
     res.json(reservations);
   } catch (error) {
@@ -19,7 +24,7 @@ export const getAllReservations = async (req, res) => {
 export const getReservationById = async (req, res) => {
   const reservationId = req.params.id;
   try {
-    const data = await fs.readFile(reservationsFilePath, "utf-8");
+    const data = fs.readFileSync(reservationsFilePath, "utf-8");
     const reservations = JSON.parse(data);
     const foundReservation = reservations.find(
       (reservation) => reservation.id === parseInt(reservationId)
@@ -57,11 +62,11 @@ export const createReservation = async (req, res) => {
     const checkOutDate = new Date(newReservationData.checkOutDate);
 
     // Ensure guest and room exist
-    const guestData = await fs.readFile(guestsFilePath, "utf-8");
+    const guestData = fs.readFileSync(guestsFilePath, "utf-8");
     const guests = JSON.parse(guestData);
     const foundGuest = guests.find((guest) => guest.id === guestId);
 
-    const roomData = await fs.readFile(roomsFilePath, "utf-8");
+    const roomData = fs.readFileSync(roomsFilePath, "utf-8");
     const rooms = JSON.parse(roomData);
     const foundRoom = rooms.find((room) => room.roomNumber === roomId);
 
@@ -85,7 +90,7 @@ export const createReservation = async (req, res) => {
 
     // Generate a unique reservation id
     let newId = 1;
-    const existingReservations = await fs.readFile(
+    const existingReservations = fs.readFileSync(
       reservationsFilePath,
       "utf-8"
     );
@@ -97,13 +102,13 @@ export const createReservation = async (req, res) => {
 
     //Add new reservation
     const reservations = [
-      ...((await fs.readFile(reservationsFilePath, "utf-8")).length === 0
+      ...((fs.readFileSync(reservationsFilePath, "utf-8")).length === 0
         ? []
-        : JSON.parse(await fs.readFile(reservationsFilePath, "utf-8"))),
+        : JSON.parse(fs.readFileSync(reservationsFilePath, "utf-8"))),
       { ...newReservation, id: newId },
     ];
 
-    await fs.writeFile(
+    fs.writeFileSync(
       reservationsFilePath,
       JSON.stringify(reservations, null, 2)
     );
@@ -124,7 +129,7 @@ export const updateReservation = async (req, res) => {
   const updatedReservationData = req.body;
 
   try {
-    const data = await fs.readFile(reservationsFilePath, "utf-8");
+    const data = fs.readFileSync(reservationsFilePath, "utf-8");
     const reservations = JSON.parse(data);
     const reservationIndex = reservations.findIndex(
       (reservation) => reservation.id === parseInt(reservationId)
@@ -145,7 +150,7 @@ export const updateReservation = async (req, res) => {
       ...updatedReservationData,
     };
 
-    await fs.writeFile(
+    fs.writeFileSync(
       reservationsFilePath,
       JSON.stringify(reservations, null, 2)
     );
@@ -162,7 +167,7 @@ export const deleteReservation = async (req, res) => {
   const reservationId = req.params.id;
 
   try {
-    const data = await fs.readFile(reservationsFilePath, "utf-8");
+    const data = fs.readFileSync(reservationsFilePath, "utf-8");
     const reservations = JSON.parse(data);
     const reservationIndex = reservations.findIndex(
       (reservation) => reservation.id === parseInt(reservationId)
@@ -175,7 +180,7 @@ export const deleteReservation = async (req, res) => {
     //Delete reservation
     reservations.splice(reservationIndex, 1);
 
-    await fs.writeFile(
+    fs.writeFileSync(
       reservationsFilePath,
       JSON.stringify(reservations, null, 2)
     );
