@@ -1,2 +1,9 @@
-//export {user} from './user.js';
-//export {post} from './post.js';
+import Guest from './guest.js';
+import Room from './room.js';
+import Reservation from './reservation.js';
+
+export default {
+    Guest,
+    Room,
+    Reservation,
+};
