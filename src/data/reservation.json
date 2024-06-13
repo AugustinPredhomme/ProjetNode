@@ -1,0 +1,17 @@
+[
+    {
+      "id": 1,
+      "guest": {
+        "id": 1,
+        "firstName": "John",
+        "lastName": "Doe"
+      },
+      "room": {
+        "roomNumber": 101,
+        "type": "Single"
+      },
+      "checkInDate": "2024-06-20",
+      "checkOutDate": "2024-06-25"
+    }
+  ]
+  
