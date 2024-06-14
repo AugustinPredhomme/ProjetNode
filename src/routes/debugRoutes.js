@@ -14,8 +14,8 @@ router.get("/debug/guests", async (req, res) => {
     const absolutePath = dirname(filePath);
 
     res.render(path.join(absolutePath, "../src/views/guests.ejs"), {
-      //dataName: "Guests",
-      //dataCount: guests.length,
+      dataName: "Guests",
+      dataCount: guests.length,
       data: guests,
     });
 });

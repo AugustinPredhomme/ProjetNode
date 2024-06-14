@@ -76,11 +76,6 @@ export const createReservation = async (req, res) => {
         .json({ message: "Invalid guest or room information" });
     }
 
-    // Bonus : Check room availability for the requested dates
-    /**
-     *
-     */
-
     const newReservation = new Reservation(
       foundGuest,
       foundRoom,
@@ -138,11 +133,6 @@ export const updateReservation = async (req, res) => {
     if (reservationIndex === -1) {
       return res.status(404).json({ message: "Reservation not found" });
     }
-
-    // Bonus : Check room availability
-    /**
-     *
-     */
 
     //Update reservation
     reservations[reservationIndex] = {
