@@ -38,7 +38,7 @@ app.get("/", (req, res) => {
 // Enregistrement des routes
 app.use("/guests", guestsRoutes);
 app.use("/rooms", roomsRoutes);
-app.use("/reservation", reservationRoutes);
+app.use("/reservations", reservationRoutes);
 app.use('/api', debugRouter);
 
 // Gestion des erreurs
