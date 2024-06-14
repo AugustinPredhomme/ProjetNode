@@ -8,8 +8,9 @@ import { getAllRooms } from "../controllers/roomsController.js";
 const router = express.Router();
 
 // Debug route for guests
-router.get("/debug/guests", async (req, res) => {
+router.get("/guests", async (req, res) => {
     const guests = await getAllGuests(req, res);
+    console.table(guests);
     const filePath = new URL('.', import.meta.url).pathname;
     const absolutePath = dirname(filePath);
 
@@ -20,7 +21,7 @@ router.get("/debug/guests", async (req, res) => {
     });
 });
 
-router.get("/debug/reservations", async (req, res) => {
+router.get("/reservations", async (req, res) => {
   const reservations = await getAllReservations(req, res);
   const filePath = new URL('.', import.meta.url).pathname;
   const absolutePath = dirname(filePath);
@@ -32,7 +33,7 @@ router.get("/debug/reservations", async (req, res) => {
   });
 });
 
-router.get("/debug/rooms", async (req, res) => {
+router.get("/rooms", async (req, res) => {
   const rooms = await getAllRooms(req, res);
   const filePath = new URL('.', import.meta.url).pathname;
   const absolutePath = dirname(filePath);

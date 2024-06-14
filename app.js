@@ -1,8 +1,7 @@
 import express from "express";
 import http from "http";
 import helmet from "helmet";
-import path from "path";
-import { dirname } from "path";
+import path, { dirname } from "path";
 
 //Import routes
 import guestsRoutes from "./src/routes/guestsRoutes.js";
@@ -39,7 +38,7 @@ app.get("/", (req, res) => {
 app.use("/guests", guestsRoutes);
 app.use("/rooms", roomsRoutes);
 app.use("/reservations", reservationRoutes);
-app.use('/api', debugRouter);
+app.use('/debug', debugRouter);
 
 // Gestion des erreurs
 app.use(errorMiddleware);
